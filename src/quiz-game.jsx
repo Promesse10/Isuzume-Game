@@ -52,52 +52,21 @@ const Alert = ({ message, type = 'info', language }) => {
   );
 };
 
-const GameRules = ({ prize, language, onConfirm, onClose }) => {
+const GameRules = ({ language, onConfirm, onClose }) => {
   const rules = {
-    'Cash Prize': {
-      en: [
-        "Answer 5 difficult questions about traffic laws",
-        "You must get all questions correct to win",
-        "Prize can be collected on Christmas Day",
-        "You have 1 minute and 30 seconds per question"
-      ],
-      rw: [
-        "Subiza ibibazo 5 bigoye ku mategeko y'umuhanda",
-        "Ugomba gusubiza neza ibibazo byose kugira ngo utsinde",
-        "Ibihembo bizatangwa ku munsi wa Noheli",
-        "Ufite iminota 1 n'amasegonda 30 kuri buri kibazo"
-      ]
-    },
-    'Ten Exams': {
-      en: [
-        "Answer 5 intermediate questions",
-        "You must get all questions correct",
-        "Get immediate access to 10 practice exams",
-        "You have 2 minutes per question"
-      ],
-      rw: [
-        "Subiza ibibazo 5 byo ku rwego rwo hagati",
-        "Ugomba gusubiza neza ibibazo byose",
-        "Uhabwa uburenganzira bwo gukora ibizamini 10 byo kwimenyereza",
-        "Ufite iminota 2 kuri buri kibazo"
-      ]
-    },
-    'T-Shirt': {
-      en: [
-        "To win a T-shirt, you must buy 5 tests and score at least 12% on 3 tests on our website.",
-        "Visit our website to participate in this challenge."
-      ],
-      rw: [
-        "Kugira ngo utsinde T-shirt, ugomba kugura ibizamini 5 kandi ukabikorera nibura 12% muri 3 kuri website yacu.",
-        "Sura urubuga rwacu kugira ngo witabire iyi challenge."
-      ]
-    }
+    en: [
+      "Answer 9 questions about traffic laws",
+      "You must get all questions correct to win",
+      "If you win, the 1000 RWF prize will be converted to exam attempts",
+      "You have 1 minute and 30 seconds per question"
+    ],
+    rw: [
+      "Subiza ibibazo 9 ku mategeko y'umuhanda",
+      "Ugomba gusubiza neza ibibazo byose kugira ngo utsinde",
+      "Nutsinda, igihembo cya 1000 RWF kizahindurwa ibizamini by'imyitozo",
+      "Ufite iminota 1 n'amasegonda 30 kuri buri kibazo"
+    ]
   };
-
-  if (!prize || !rules[prize]) {
-    console.error('Invalid prize selected:', prize);
-    return null;
-  }
 
   return (
     <div 
@@ -115,18 +84,8 @@ const GameRules = ({ prize, language, onConfirm, onClose }) => {
         {language === 'en' ? 'Game Rules' : 'Amategeko y\'umukino'}
       </h2>
       <div className="mb-6">
-        <h3 className="font-semibold mb-2">{language === 'en' ? 'English:' : 'Icyongereza:'}</h3>
-        <ul className="space-y-2 mb-4">
-          {rules[prize].en.map((rule, index) => (
-            <li key={index} className="flex items-start">
-              <span className="text-[#166d92] mr-2">- </span>
-              {rule}
-            </li>
-          ))}
-        </ul>
-        <h3 className="font-semibold mb-2">{language === 'en' ? 'Kinyarwanda:' : 'Ikinyarwanda:'}</h3>
         <ul className="space-y-2">
-          {rules[prize].rw.map((rule, index) => (
+          {rules[language].map((rule, index) => (
             <li key={index} className="flex items-start">
               <span className="text-[#166d92] mr-2">- </span>
               {rule}
@@ -134,23 +93,12 @@ const GameRules = ({ prize, language, onConfirm, onClose }) => {
           ))}
         </ul>
       </div>
-      {prize === 'T-Shirt' ? (
-        <a
-          href="https://www.isuzume.rw"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full bg-[#166d92] text-white py-2 px-4 rounded-lg hover:bg-[#166d92]/90 transition-colors inline-block text-center"
-        >
-          {language === 'en' ? 'Visit Our Website' : 'Sura Urubuga Rwacu'}
-        </a>
-      ) : (
-        <button
-          onClick={onConfirm}
-          className="w-full bg-[#166d92] text-white py-2 px-4 rounded-lg hover:bg-[#166d92]/90 transition-colors"
-        >
-          {language === 'en' ? 'I Understand' : 'Nabyumvise'}
-        </button>
-      )}
+      <button
+        onClick={onConfirm}
+        className="w-full bg-[#166d92] text-white py-2 px-4 rounded-lg hover:bg-[#166d92]/90 transition-colors"
+      >
+        {language === 'en' ? 'I Understand' : 'Nabyumvise'}
+      </button>
     </motion.div>
     </div>
   );
@@ -201,18 +149,14 @@ const translations = {
     }
   },
   prizes: {
-    cashPrize: {
-      en: 'Cash Prize',
-      rw: 'Igihembo cy\'amafaranga'
-    },
-    tenExams: {
-      en: 'Ten Exams',
-      rw: 'Ibizamini icumi'
-    },
-    tshirt: {
-      en: 'T-Shirt',
-      rw: 'T-Shirt'
+    mainPrize: {
+      en: '1000 RWF Prize',
+      rw: 'Igihembo cya 1000 RWF'
     }
+  },
+  prizeExplanation: {
+    en: "If you win, the 1000 RWF prize will be converted to exam attempts.",
+    rw: "Nutsinda, igihembo cya 1000 RWF kizahindurwa ibizamini by'imyitozo."
   },
   tshirtPopup: {
     en: "To win a T-shirt, you must buy 5 tests and score at least 12% on 3 tests on our website.",
@@ -232,33 +176,13 @@ const prizes = [
   {
     id: 1,
     name: {
-      en: 'Cash Prize',
-      rw: 'Igihembo cy\'amafaranga'
+      en: '1000 RWF Prize',
+      rw: 'Igihembo cya 1000 RWF'
     },
     image:  Money,
-    difficulty: 'hard',
-    questions: 5,
+    difficulty: 'mixed',
+    questions: 9,
     timePerQuestion: 90 // 1:30 in seconds
-  },
-  {
-    id: 2,
-    name: {
-      en: 'Ten Exams',
-      rw: 'Ibizamini icumi'
-    },
-    image: Test,
-    difficulty: 'intermediate',
-    questions: 5,
-    timePerQuestion: 120 // 2 minutes in seconds
-  },
-  {
-    id: 3,
-    name: {
-      en: 'T-Shirt',
-      rw: 'T-Shirt'
-    },
-    image: Tshirt,
-    externalLink: 'https://www.isuzume.rw/more-exams'
   }
 ];
 
@@ -503,10 +427,10 @@ const IsuzumeChristmasGame = () => {
   };
 
   const randomizeQuestions = useCallback(() => {
-    const questionSet = selectedPrize.name.en === 'Cash Prize' ? questions.cashPrize : questions.tenExams;
-    const shuffled = [...questionSet].sort(() => 0.5 - Math.random());
-    setRandomizedQuestions(shuffled.slice(0, 5));
-  }, [selectedPrize]);
+    const allQuestions = [...questions.cashPrize, ...questions.tenExams];
+    const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+    setRandomizedQuestions(shuffled.slice(0, 9));
+  }, []);
 
   const handlePrizeSelection = (prize) => {
     if (!playerName.trim() || !playerPhone.trim() || playerPhone === '+250') {
@@ -586,22 +510,18 @@ const IsuzumeChristmasGame = () => {
           required
         />
       </div>
-      <p className="mb-4">{translations.welcome.choosePrize[language]}</p>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {prizes.map((prize) => (
-          <motion.div
-            key={prize.id}
-            className="bg-white p-4 rounded-lg shadow-md cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handlePrizeSelection(prize)}
-          >
-            <img src={prize.image} alt={prize.name[language]} className="w-full h-40 object-cover mb-2 rounded" />
-            <h2 className="text-xl font-semibold">{prize.name[language]}</h2>
-            {prize.difficulty && <p>Difficulty: {prize.difficulty}</p>}
-            {prize.questions && <p>Questions: {prize.questions}</p>}
-          </motion.div>
-        ))}
+      <p className="mb-4">{translations.prizeExplanation[language]}</p>
+      <div className="flex justify-center">
+        <motion.div
+          className="bg-white p-4 rounded-lg shadow-md cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => handlePrizeSelection(prizes[0])}
+        >
+          <img src={prizes[0].image} alt={prizes[0].name[language]} className="w-full h-40 object-cover mb-2 rounded" />
+          <h2 className="text-xl font-semibold">{prizes[0].name[language]}</h2>
+          <p>Questions: {prizes[0].questions}</p>
+        </motion.div>
       </div>
     </div>
   );
@@ -639,28 +559,36 @@ const IsuzumeChristmasGame = () => {
         <h2 className="text-3xl font-bold mb-4 text-red-500">Game Over!</h2>
       )}
       <p className="mb-4">You scored {score} out of {selectedPrize.questions}</p>
-      {selectedPrize.id === 1 && score === selectedPrize.questions && (
+      {score === selectedPrize.questions && (
         <div>
-          <p className="text-green-500 font-semibold mb-2">Congratulations! You've won the {translations.prizes.cashPrize[language]}.</p>
-          <p className="text-blue-500 mb-4">You can collect your prize on Christmas Day at our main office. Please bring a valid ID.</p>
+          <p className="text-green-500 font-semibold mb-2">
+            {language === 'en' 
+              ? 'Congratulations! You\'ve won the 1000 RWF prize.'
+              : 'Twishimiye ko watsindiye igihembo cya 1000 RWF.'}
+          </p>
+          <p className="text-blue-500 mb-4">
+            {language === 'en'
+              ? 'Your prize will be converted to exam attempts. Check your account for details.'
+              : 'Igihembo cyawe kizahindurwa ibizamini by\'imyitozo. Reba konti yawe ku bindi bisobanuro.'}
+          </p>
         </div>
       )}
-      {selectedPrize.id === 2 && score === selectedPrize.questions && (
-        <div>
-          <p className="text-green-500 font-semibold mb-2">Congratulations! You've won {translations.prizes.tenExams[language]}.</p>
-          <p className="text-blue-500 mb-4">Your account has been credited with 10 free exams. You can start using them immediately!</p>
-        </div>
-      )}
-      {(score < selectedPrize.questions || selectedPrize.id === 3) && (
-        <p className="text-blue-500 mb-4">Thank you for playing! Visit our website for more opportunities.</p>
+      {score < selectedPrize.questions && (
+        <p className="text-blue-500 mb-4">
+          {language === 'en'
+            ? 'Thank you for playing! Visit our website for more opportunities.'
+            : 'Urakoze kugira uruhare! Sura urubuga rwacu kuri izindi amahirwe.'}
+        </p>
       )}
       {showResults && (
         <div className="mt-4">
-          <h3 className="text-2xl font-bold mb-2">Your Answers:</h3>
+          <h3 className="text-2xl font-bold mb-2">
+            {language === 'en' ? 'Your Answers:' : 'Ibisubizo Byawe:'}
+          </h3>
           {userAnswers.map((answer, index) => (
             <div key={index} className={`mb-2 ${answer.isCorrect ? 'text-green-500' : 'text-red-500'}`}>
-              <p>Question {index + 1}: {answer.answer || 'Time out'}</p>
-              <p>Correct Answer: {randomizedQuestions[index].correctAnswer[language]}</p>
+              <p>{language === 'en' ? 'Question' : 'Ikibazo'} {index + 1}: {answer.answer || (language === 'en' ? 'Time out' : 'Igihe cyarangiye')}</p>
+              <p>{language === 'en' ? 'Correct Answer:' : 'Igisubizo cy\'ukuri:'} {randomizedQuestions[index].correctAnswer[language]}</p>
             </div>
           ))}
         </div>
@@ -687,7 +615,6 @@ const IsuzumeChristmasGame = () => {
         <AnimatePresence>
           {showRules && selectedPrize && (
             <GameRules
-              prize={selectedPrize.name.en}
               language={language}
               onConfirm={handleRulesConfirm}
               onClose={() => setShowRules(false)}
